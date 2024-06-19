@@ -1,3 +1,11 @@
+# PvP Tic Tac Toe Game
+## Features:
+- choose who starts
+- choose length for win
+- choose field size
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
