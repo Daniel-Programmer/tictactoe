@@ -6,20 +6,21 @@ export const Board = (props) => {
     const [lastFilledPosition, setlastFilledPosition] = useState(null);
     const [filledO, setFilledO] = useState([]);
     const [filledX, setFilledX] = useState([]);
+    const [somebodyWon, setSomebodyWon] = useState(false);
     const maxNumberOfSquares = props.boardSideLength * props.boardSideLength;
 
-    const handleClick = (e) => {
-        setlastFilledPosition(e);
+    const handleClick = (position) => {
+        setlastFilledPosition(position);
         if (props.xIsNext === true) {
-            setFilledX((prev) => ([...prev, e]));
+            setFilledX((prev) => ([...prev, position]));
         }
         else if (props.xIsNext === false) {
-            setFilledO((prev) => ([...prev, e]));
+            setFilledO((prev) => ([...prev, position]));
         }
     }
 
     const isAlreadyFilledSquare = (squares, x, y) => {
-        return squares.some(e => e.x === x && e.y === y)
+        return squares.some(position => position.x === x && position.y === y)
     }
 
     const calculateWinner = (squares, currentPosition, boardSideLength, winFor) => {
@@ -95,17 +96,12 @@ export const Board = (props) => {
 
     useEffect(() => {
         if (lastFilledPosition !== null) {
-            if (maxNumberOfSquares === filledO.length + filledX.length) {
-                props.handlePlayerWon('OX');
-                props.setIsPlaying(false);
-            }
-
             if (props.xIsNext === true) {
                 const isWinner = calculateWinner(filledO, lastFilledPosition, props.boardSideLength, props.lengthForWin);
                 if (isWinner) {
                     props.handlePlayerWon('O');
+                    setSomebodyWon(true);
                     props.setIsPlaying(false);
-                    props.setXIsNext(true);
                 }
             }
 
@@ -113,12 +109,16 @@ export const Board = (props) => {
                 const isWinner = calculateWinner(filledX, lastFilledPosition, props.boardSideLength, props.lengthForWin);
                 if (isWinner) {
                     props.handlePlayerWon('X');
+                    setSomebodyWon(true);
                     props.setIsPlaying(false);
-                    props.setXIsNext(true);
                 }
             }
+            if (!somebodyWon && maxNumberOfSquares === filledO.length + filledX.length) {
+                props.handlePlayerWon('OX');
+                props.setIsPlaying(false);
+            }
         }
-    }, [lastFilledPosition, props, filledO, filledX, maxNumberOfSquares])
+    }, [lastFilledPosition, props, filledO, filledX])
 
 
     // Create board of squares
