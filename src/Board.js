@@ -9,18 +9,18 @@ export const Board = (props) => {
     const [somebodyWon, setSomebodyWon] = useState(false);
     const maxNumberOfSquares = props.boardSideLength * props.boardSideLength;
 
-    const handleClick = (position) => {
-        setlastFilledPosition(position);
+    const handleClick = (e) => {
+        setlastFilledPosition(e);
         if (props.xIsNext === true) {
-            setFilledX((prev) => ([...prev, position]));
+            setFilledX((prev) => ([...prev, e]));
         }
         else if (props.xIsNext === false) {
-            setFilledO((prev) => ([...prev, position]));
+            setFilledO((prev) => ([...prev, e]));
         }
     }
 
     const isAlreadyFilledSquare = (squares, x, y) => {
-        return squares.some(position => position.x === x && position.y === y)
+        return squares.some(e => e.x === x && e.y === y)
     }
 
     const calculateWinner = (squares, currentPosition, boardSideLength, winFor) => {
@@ -45,7 +45,6 @@ export const Board = (props) => {
 
         let yMin = y - (winFor - 1) >= 0 ? y - (winFor - 1) : 0;
         while ((yMin < (y + winFor)) && (yMin < boardSideLength)) {
-            console.log(x, yMin);
             isAlreadyFilledSquare(squares, x, yMin) ? counter++ : counter = 0;
 
             if (counter === winFor) {
@@ -70,6 +69,10 @@ export const Board = (props) => {
 
         while ((uly < boardSideLength && ulx < boardSideLength) && ((ulx < (x + winFor)) && (uly < (y + winFor)))) {
             isAlreadyFilledSquare(squares, ulx, uly) ? counter++ : counter = 0;
+
+            if (counter === winFor) {
+                return true
+            }
 
             ulx++;
             uly++;
