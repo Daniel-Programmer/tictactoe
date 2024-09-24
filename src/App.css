@@ -6,16 +6,17 @@
   background: #fff;
   border: 1px solid #999;
   float: left;
-  font-size: 24px;
+  font-size: 2.4em;
   font-weight: bold;
   line-height: 34px;
   margin-right: -1px;
   margin-top: -1px;
   padding: 0;
   text-align: center;
-  /* height: 34px;
-  width: 34px; */
-  flex-grow: 1
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .game {
@@ -26,9 +27,7 @@
 }
 
 .board {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  display: grid;
 }
 .row {
   position: relative;
